@@ -31,6 +31,6 @@ public class CuentaBancaria {
     @ManyToOne
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "cuentaBancaria")
+    @OneToMany(mappedBy = "cuentaBancaria", fetch = FetchType.LAZY)
     private List<OperacionCuenta> operacionCuenta;
 }
