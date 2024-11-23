@@ -33,7 +33,7 @@ public class BancaDigitalApplication {
         };
     }
 
-    @Bean
+//    @Bean
     CommandLineRunner start(CuentaBancariaService cuentaBancariaService) {
         return args -> {
             Stream.of("Juan", "Pedro", "Maria", "Ana").forEach(nombre -> {
