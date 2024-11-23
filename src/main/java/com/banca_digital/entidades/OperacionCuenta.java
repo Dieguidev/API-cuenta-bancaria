@@ -22,6 +22,8 @@ public class OperacionCuenta {
 
     private double monto;
 
+    private String descripcion;
+
     @Enumerated(EnumType.STRING)
     private TipoOperacion tipoOperacion;
 
