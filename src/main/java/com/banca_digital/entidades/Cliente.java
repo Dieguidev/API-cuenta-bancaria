@@ -22,6 +22,6 @@ public class Cliente {
 
     // Cliente tiene muchas cuentas bancarias
     @OneToMany(mappedBy = "cliente")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<CuentaBancaria> cuentasBancarias;
 }

@@ -1,5 +1,6 @@
 package com.banca_digital.web;
 
+import com.banca_digital.dtos.ClienteDTO;
 import com.banca_digital.entidades.Cliente;
 import com.banca_digital.servicios.CuentaBancariaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ClienteController {
     private CuentaBancariaService cuentaBancariaService;
 
     @GetMapping("")
-    public List<Cliente> listarClientes(){
+    public List<ClienteDTO> listarClientes(){
         return cuentaBancariaService.listarClientes();
     }
 }
