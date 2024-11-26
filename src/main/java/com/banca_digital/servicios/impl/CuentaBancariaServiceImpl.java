@@ -38,10 +38,31 @@ public class CuentaBancariaServiceImpl implements CuentaBancariaService {
     private CuentaBancariaMapperImpl cuentaBancariaMapper;
 
     @Override
-    public Cliente saveCliente(Cliente cliente) {
+    public ClienteDTO saveCliente(ClienteDTO clienteDTO) {
         log.info("Guardando un nuevo cliente");
+        Cliente cliente = cuentaBancariaMapper.mapearDeClienteDTO(clienteDTO);
         Cliente clienteBBDD = clienteRepository.save(cliente);
-        return clienteBBDD;
+        return cuentaBancariaMapper.mapearDeCliente(clienteBBDD);
+    }
+
+    @Override
+    public ClienteDTO getCliente(Long clienteId) throws ClienteNotFoundException {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
+        return cuentaBancariaMapper.mapearDeCliente(cliente);
+    }
+
+    @Override
+    public ClienteDTO updateCliente(ClienteDTO clienteDTO) {
+        log.info("actualizando Cliente");
+        Cliente cliente = cuentaBancariaMapper.mapearDeClienteDTO(clienteDTO);
+        Cliente clienteBBDD = clienteRepository.save(cliente);
+        return cuentaBancariaMapper.mapearDeCliente(clienteBBDD);
+    }
+
+    @Override
+    public void deleteCliente(Long clienteId) {
+        clienteRepository.deleteById(clienteId);
     }
 
     @Override
@@ -99,7 +120,7 @@ public class CuentaBancariaServiceImpl implements CuentaBancariaService {
     public void debit(String cuentaId, double monto, String descripcion) throws CuentaBancariaNotFoundException, BalanceInsuficienteException {
         CuentaBancaria cuentaBancaria = getCuentaBancaria(cuentaId);
 
-        if (cuentaBancaria.getBalance() < monto){
+        if (cuentaBancaria.getBalance() < monto) {
             throw new BalanceInsuficienteException("Saldo insuficiente");
         }
 

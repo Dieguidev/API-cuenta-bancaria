@@ -1,22 +1,15 @@
 package com.banca_digital;
 
+import com.banca_digital.dtos.ClienteDTO;
 import com.banca_digital.entidades.*;
-import com.banca_digital.enums.EstadoCuenta;
-import com.banca_digital.enums.TipoOperacion;
 import com.banca_digital.excepciones.ClienteNotFoundException;
-import com.banca_digital.repositorios.ClienteRepository;
-import com.banca_digital.repositorios.CuentaBancariaRepository;
-import com.banca_digital.repositorios.OperacionCuentaRepository;
 import com.banca_digital.servicios.BancoService;
 import com.banca_digital.servicios.CuentaBancariaService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -37,7 +30,7 @@ public class BancaDigitalApplication {
     CommandLineRunner start(CuentaBancariaService cuentaBancariaService) {
         return args -> {
             Stream.of("Juan", "Pedro", "Maria", "Ana").forEach(nombre -> {
-                Cliente cliente = new Cliente();
+                ClienteDTO cliente = new ClienteDTO();
                 cliente.setNombre(nombre);
                 cliente.setEmail(nombre + "@gmail.com");
                 cuentaBancariaService.saveCliente(cliente);
