@@ -1,9 +1,6 @@
 package com.banca_digital.servicios.impl;
 
-import com.banca_digital.dtos.ClienteDTO;
-import com.banca_digital.dtos.CuentaActualDTO;
-import com.banca_digital.dtos.CuentaAhorroDTO;
-import com.banca_digital.dtos.CuentaBancariaDTO;
+import com.banca_digital.dtos.*;
 import com.banca_digital.entidades.*;
 import com.banca_digital.enums.TipoOperacion;
 import com.banca_digital.excepciones.BalanceInsuficienteException;
@@ -116,6 +113,7 @@ public class CuentaBancariaServiceImpl implements CuentaBancariaService {
     public CuentaBancariaDTO getCuentaBancaria(String id) throws CuentaBancariaNotFoundException {
         CuentaBancaria cuentaBancaria = cuentaBancariaRepository.findById(id)
                 .orElseThrow(() -> new CuentaBancariaNotFoundException("Cuenta bancaria no encontrada"));
+        System.out.println(cuentaBancaria.getEstadoCuenta());
         if (cuentaBancaria instanceof CuentaAhorro) {
             return cuentaBancariaMapper.mapearDeCuentaAhorro((CuentaAhorro) cuentaBancaria);
         } else {
@@ -182,8 +180,16 @@ public class CuentaBancariaServiceImpl implements CuentaBancariaService {
         return cuentaBancariaDtos;
     }
 
-//    List<ClienteDTO> clienteDTOS = clientes.stream()
-//            .map(cliente -> cuentaBancariaMapper.mapearDeCliente(cliente))
-//            .collect(Collectors.toList());
-//        return clienteDTOS;
+    @Override
+    public List<OperacionCuentaDTO> listarOperacionesCuenta(String cuentaId) throws CuentaBancariaNotFoundException {
+        cuentaBancariaRepository.findById(cuentaId)
+                .orElseThrow(() -> new CuentaBancariaNotFoundException("Cuenta bancaria no encontrada"));
+        List<OperacionCuenta> operacionesCuentas = operacionCuentaRepository.findByCuentaBancariaId(cuentaId);
+        List<OperacionCuentaDTO> operacionCuentaDTOS = operacionesCuentas.stream()
+                .map(operacioncuenta -> cuentaBancariaMapper.mapearDeOperacionCuenta(operacioncuenta))
+                .collect(Collectors.toList());
+        return operacionCuentaDTOS;
+    }
+
+
 }

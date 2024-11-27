@@ -3,6 +3,7 @@ package com.banca_digital.entidades;
 import com.banca_digital.enums.EstadoCuenta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +26,7 @@ public class CuentaBancaria {
     private Date fechaCreacion;
 
     @Enumerated(EnumType.STRING)
-    private EstadoCuenta estadoCuenta;
+    private EstadoCuenta estadoCuenta = EstadoCuenta.ACTIVADA;
 
     // Cuenta bancaria pertenece a un cliente
     @ManyToOne
