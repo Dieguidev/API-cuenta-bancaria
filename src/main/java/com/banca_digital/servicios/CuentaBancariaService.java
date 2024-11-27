@@ -37,4 +37,5 @@ public interface CuentaBancariaService {
 
     List<OperacionCuentaDTO> listarOperacionesCuenta(String cuentaId) throws CuentaBancariaNotFoundException;
 
+    HistorialCuentaDTO getHistorialCuenta(String cuentaId, int page, int size) throws CuentaBancariaNotFoundException;
 }

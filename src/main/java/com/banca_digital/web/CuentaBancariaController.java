@@ -1,6 +1,7 @@
 package com.banca_digital.web;
 
 import com.banca_digital.dtos.CuentaBancariaDTO;
+import com.banca_digital.dtos.HistorialCuentaDTO;
 import com.banca_digital.dtos.OperacionCuentaDTO;
 import com.banca_digital.excepciones.CuentaBancariaNotFoundException;
 import com.banca_digital.servicios.CuentaBancariaService;
@@ -31,6 +32,11 @@ public class CuentaBancariaController {
     @GetMapping("/{cuentaId}/operaciones")
     public List<OperacionCuentaDTO> listarOperacionesDeUnaCuentaBancaria(@PathVariable String cuentaId) throws CuentaBancariaNotFoundException {
         return cuentaBancariaService.listarOperacionesCuenta(cuentaId);
+    }
+
+    @GetMapping("/{cuentaId}/pageOperaciones")
+    public HistorialCuentaDTO listarOperacionesDeUnaCuentaPaginada(@PathVariable String cuentaId, @RequestParam(name="page", defaultValue="0") int page, @RequestParam(name="size", defaultValue="5") int size) throws CuentaBancariaNotFoundException {
+        return cuentaBancariaService.getHistorialCuenta(cuentaId,page,size);
     }
 
     @ExceptionHandler(CuentaBancariaNotFoundException.class)
