@@ -1,8 +1,7 @@
 package com.banca_digital.web;
 
-import com.banca_digital.dtos.CuentaBancariaDTO;
-import com.banca_digital.dtos.HistorialCuentaDTO;
-import com.banca_digital.dtos.OperacionCuentaDTO;
+import com.banca_digital.dtos.*;
+import com.banca_digital.excepciones.BalanceInsuficienteException;
 import com.banca_digital.excepciones.CuentaBancariaNotFoundException;
 import com.banca_digital.servicios.CuentaBancariaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,25 @@ public class CuentaBancariaController {
     }
 
     @GetMapping("/{cuentaId}/pageOperaciones")
-    public HistorialCuentaDTO listarOperacionesDeUnaCuentaPaginada(@PathVariable String cuentaId, @RequestParam(name="page", defaultValue="0") int page, @RequestParam(name="size", defaultValue="5") int size) throws CuentaBancariaNotFoundException {
-        return cuentaBancariaService.getHistorialCuenta(cuentaId,page,size);
+    public HistorialCuentaDTO listarOperacionesDeUnaCuentaPaginada(@PathVariable String cuentaId, @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "5") int size) throws CuentaBancariaNotFoundException {
+        return cuentaBancariaService.getHistorialCuenta(cuentaId, page, size);
+    }
+
+    @PostMapping("/debito")
+    public DebitoDTO realizarDebito(@RequestBody DebitoDTO debitoDTO) throws CuentaBancariaNotFoundException, BalanceInsuficienteException {
+        cuentaBancariaService.debit(debitoDTO.getCuentaId(), debitoDTO.getMonto(), debitoDTO.getDescripcion());
+        return debitoDTO;
+    }
+
+    @PostMapping("/credito")
+    public CreditoDTO realizarCredito(@RequestBody CreditoDTO creditoDTO) throws CuentaBancariaNotFoundException {
+        cuentaBancariaService.credit(creditoDTO.getCuentaId(), creditoDTO.getMonto(), creditoDTO.getDescripcion());
+        return creditoDTO;
+    }
+
+    @PostMapping("/transferencia")
+    public void realizarTransferencia(@RequestBody TransferenciaRequestDTO transferenciaRequestDTO) throws CuentaBancariaNotFoundException, BalanceInsuficienteException {
+        cuentaBancariaService.transfer(transferenciaRequestDTO.getCuentaPropietario(), transferenciaRequestDTO.getCuentaDestinatario(),transferenciaRequestDTO.getMonto());
     }
 
     @ExceptionHandler(CuentaBancariaNotFoundException.class)
