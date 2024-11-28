@@ -1,9 +1,6 @@
 package com.banca_digital.servicios;
 
 import com.banca_digital.dtos.*;
-import com.banca_digital.entidades.Cliente;
-import com.banca_digital.entidades.CuentaAhorro;
-import com.banca_digital.entidades.CuentaBancaria;
 import com.banca_digital.excepciones.BalanceInsuficienteException;
 import com.banca_digital.excepciones.ClienteNotFoundException;
 import com.banca_digital.excepciones.CuentaBancariaNotFoundException;
@@ -16,6 +13,8 @@ public interface CuentaBancariaService {
     ClienteDTO getCliente(Long clienteId) throws ClienteNotFoundException;
 
     ClienteDTO updateCliente( ClienteDTO clienteDTO);
+
+    List<ClienteDTO> searchClientes(String keyword);
 
     void deleteCliente(Long clienteId);
 
